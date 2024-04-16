@@ -55,12 +55,6 @@ class Record:
                 p.value = new_phone
                 return
 
-    def find_phone(self, phone):
-        for p in self.phones:
-            if p.value == phone:
-                return p.value
-        return None
-
     def add_birthday(self, birthday):
         self.birthday = Birthday(birthday)
 
@@ -152,7 +146,15 @@ def main():
             print("How can I help you?")
 
         elif command == "add":
-            print(add_contact(args, book))
+            # Implementation for adding a contact
+            name = args[0]
+            record = Record(name)
+            if len(args) > 1:
+                phones = args[1:]
+                for phone in phones:
+                    record.add_phone(phone)
+            book.add_record(record)
+            print(f"Contact {name} added.")
 
         elif command == "change":
             # Implementation for changing phone number
@@ -164,7 +166,8 @@ def main():
 
         elif command == "all":
             # Implementation for showing all contacts
-            pass
+            for record in book.data.values():
+                print(record)
 
         elif command == "add-birthday":
             print(add_birthday(args, book))
