@@ -40,6 +40,14 @@ class Record:
         self.phones = []
         self.birthday = None
 
+    def print(self):
+        phones = ', '.join([phone.value for phone in self.phones])
+        if self.birthday != None:
+            birthday = str(self.birthday.date)
+        else:
+            birthday = 'None'
+        return f'Name: {self.name.value}, Phones: {phones}, Birthday: {birthday}'
+
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
 
@@ -133,7 +141,7 @@ def phone(args, book: AddressBook):
     name, *_ = args
     record = book.find(name)
     if record:
-        phones = ', '.join([str(phone) for phone in record.phones])
+        phones = ', '.join([phone.value for phone in record.phones])
         return f"{name}'s phone(s): {phones}"
     else:
         return f"Contact '{name}' not found."
@@ -142,7 +150,7 @@ def phone(args, book: AddressBook):
 @input_error
 def all_contacts(_, book: AddressBook):
     if book.data:
-        return "\n".join([str(record) for record in book.data.values()])
+        return "\n".join([record.print() for record in book.data.values()])
     else:
         return "Address book is empty."
 
